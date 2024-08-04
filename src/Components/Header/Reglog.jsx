@@ -32,7 +32,9 @@ const SignupForm = () => {
     function openModal() {
         setIsOpen(true);
     }
-
+    const hanadleClickRL = () => {
+        trigger();
+    }
     const switchForm = () => {
         setIsRegister(!isRegister);
         trigger();
@@ -117,7 +119,7 @@ const SignupForm = () => {
                             </div>
                         )}
                     </div>
-                    <button className={button + ' w-full'} id={isRegister ? 'reg' : 'log'} type='submit'>
+                    <button className={button + ' w-full'} id={isRegister ? 'reg' : 'log'} type='submit' onClick={hanadleClickRL}>
                         {isRegister ? 'Регистрация' : 'Авторизация'}
                     </button>
                     <button className={button + ' w-full'} onClick={switchForm}>
