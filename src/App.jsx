@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import "./index.css";
-import "./app.css";
 import Header from './Components/Header';
 import Balance from './Components/Balance';
 import AddTransactionForm from './Components/AddTransactionForm';
