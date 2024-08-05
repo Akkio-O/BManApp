@@ -82,7 +82,6 @@ const SignupForm = () => {
 
             <Modal
                 isOpen={modalIsOpen}
-                // onAfterOpen={afterOpenModal} действие вызывается после открытия модального окна
                 onRequestClose={closeModal}
                 style={customStyles}
                 contentLabel="Authentication Modal"
