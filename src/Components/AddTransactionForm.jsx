@@ -2,24 +2,35 @@ import React, { useState } from 'react';
 
 const AddTransactionForm = ({ addTransaction }) => {
   const [type, setType] = useState('income');
-  const [amount, setAmount] = useState('');
-  const [category, setCategory] = useState('');
-  const [description, setDescription] = useState('');
-
+  const [values, setValues] = useState({
+    amount: '',
+    category: '',
+    description: '',
+  });
+  const inputs = [
+    { name: 'amount', type: 'number', placeholder: 'Сумма' },
+    { name: 'category', type: 'text', placeholder: 'Категория' },
+    { name: 'description', type: 'text', placeholder: 'Описание' },
+  ];
+  const handleChange = (name, value) => {
+    setValues((prevValues) => ({
+      ...prevValues,
+      [name]: value,
+    }));
+  };
   const handleSubmit = (event) => {
     event.preventDefault();
     const newTransaction = {
       id: Date.now(),
       type,
-      amount: parseFloat(amount),
-      category,
-      description,
+      amount: parseFloat(values.amount),
+      category: values.category,
+      description: values.description,
     };
     addTransaction(newTransaction);
-    setAmount('');
-    setCategory('');
-    setDescription('');
+    setValues({ amount: '', category: '', description: '' });
   };
+
 
   return (
     <div className="bg-white p-4 rounded shadow-md">
@@ -35,35 +46,18 @@ const AddTransactionForm = ({ addTransaction }) => {
             Расход
           </label>
         </div>
-        <div className="mb-4">
+        {inputs.map((input, index) => (
+        <div className="mb-4" key={index}>
           <input
-            type="number"
-            value={amount}
-            onChange={(e) => setAmount(e.target.value)}
-            placeholder="Сумма"
+            type={input.type}
+            value={values[input.name]}
+            onChange={(e) => handleChange(input.name, e.target.value)}
+            placeholder={input.placeholder}
             className="w-full p-2 border rounded"
-            required
+            required={input.name !== 'description'}
           />
         </div>
-        <div className="mb-4">
-          <input
-            type="text"
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
-            placeholder="Категория"
-            className="w-full p-2 border rounded"
-            required
-          />
-        </div>
-        <div className="mb-4">
-          <input
-            type="text"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            placeholder="Описание"
-            className="w-full p-2 border rounded"
-          />
-        </div>
+      ))}
         <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">
           Сохранить
         </button>

@@ -1,8 +1,7 @@
 import React from 'react';
 import SignupForm from './Header/Reglog';
-
-;
-const img = "./logo.png"
+// const img = "./Header/logo.png";
+import img from "./Header/logo.png";
 
 const Header = () => {
 

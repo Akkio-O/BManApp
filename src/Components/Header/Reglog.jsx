@@ -4,9 +4,9 @@ import { useForm } from 'react-hook-form';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 
-const label = 'block mb-2 text-lg'
+const label = 'block mb-2 text-lg text-white'
 const input = 'ring-2 ring-gray-300 w-5/6 rounded p-1 '
-const button = 'mt-4 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'
+const button = 'mt-4 bg-blue-100 text-black hover:bg-blue-800 hover:text-white font-bold py-2 px-4 rounded'
 
 const customStyles = {
     content: {
@@ -14,20 +14,32 @@ const customStyles = {
         left: '50%',
         top: '50%',
         transform: 'translate(-50%, -50%)',
-        backgroundColor: '#ffffff',
-        border: '1px solid #cccccc',
+        background: 'linear-gradient(45deg, rgb(43 90 192), rgb(98 154 255))',
+        border: 'none',
         borderRadius: '10px',
         padding: '20px',
-        width: '400px',
+        width: '100%',
+        height: 'auto'
     },
     overlay: {
         backgroundColor: 'rgba(0, 0, 0, 0.75)',
-    }
+    },
 };
 
+const errorsStyle = {
+    errorText: {
+        color: 'rgb(255 255 255)',
+        fontWeight: 'bold',
+        textShadow: 'rgba(0, 0, 0, 0.5) 1px 1px 2px',
+        background: 'linear-gradient(45deg, #ff0000, #7ccdff54)',
+        padding: '5px',
+        borderRadius: '5px'
+    },
+}
+
 const SignupForm = () => {
-    const [modalIsOpen, setIsOpen] = useState(false); // false закрытое окно, true открытое окно
-    const [isRegister, setIsRegister] = useState(true); // true для регистрации, false для авторизации
+    const [modalIsOpen, setIsOpen] = useState(false);
+    const [isRegister, setIsRegister] = useState(true);
 
     function openModal() {
         setIsOpen(true);
@@ -90,31 +102,43 @@ const SignupForm = () => {
                 <button onClick={closeModal} className={button + 'text-xl p-2 w-1/6 border-none rounded-full cursor-pointer'}>
                     X
                 </button>
-                <h2 className='color-2c3e50 text-center text-2xl mb-5'>{isRegister ? 'Регистрация' : 'Авторизация'}</h2>
+                <h2 className='text-white text-center text-2xl mb-5'>{isRegister ? 'Регистрация' : 'Авторизация'}</h2>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div className='space-y-4 flex flex-col'>
                         {isRegister && (
                             <div className='space-y-4'>
-                                <label className={label} htmlFor="username">Никнейм</label>
+                                {
+                                    errors.username ? (
+                                        <div className='text-lg' style={errorsStyle.errorText}>{errors.username.message + " Введите имя пользователя"}</div>
+                                    ) : <label className={label} htmlFor="username">Никнейм</label>
+                                }
                                 <input className={input} {...register('username')} />
-                                {errors.username && <div className='text-red-600'>{errors.username.message}</div>}
                             </div>
                         )}
                         <div className='space-y-4'>
-                            <label className={label} htmlFor="email">Email</label>
+                            {
+                                errors.email ? (
+                                    <div className='text-lg' style={errorsStyle.errorText}>{errors.email.message + " Введите @email"}</div>
+                                ) : <label className={label} htmlFor="email">Email</label>
+                            }
                             <input className={input} {...register('email')} type="email" />
-                            {errors.email && <div className='text-red-600'>{errors.email.message}</div>}
                         </div>
                         <div className='space-y-4'>
-                            <label className={label} htmlFor="password">Пароль</label>
+                            {
+                                errors.password ? (
+                                    <div className='text-lg' style={errorsStyle.errorText}>{errors.password.message + " Введите пароль"}</div>
+                                ) : <label className={label} htmlFor="password">Пароль</label>
+                            }
                             <input className={input} {...register('password')} type="password" />
-                            {errors.password && <div className='text-red-600'>{errors.password.message}</div>}
                         </div>
                         {isRegister && (
                             <div className='space-y-4'>
-                                <label className={label} htmlFor="confirmPassword">Подтвердить пароль</label>
+                                {
+                                    errors.confirmPassword ? (
+                                        <div className='text-lg' style={errorsStyle.errorText}>{errors.confirmPassword.message + " Введите пароль повторно"}</div>
+                                    ) : <label className={label} htmlFor="confirmPassword">Подтвердить пароль</label>
+                                }
                                 <input className={input} {...register('confirmPassword')} type="password" />
-                                {errors.confirmPassword && <div className='text-red-600'>{errors.confirmPassword.message}</div>}
                             </div>
                         )}
                     </div>
